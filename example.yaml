@@ -1,0 +1,66 @@
+version: "3"
+services:
+  web:
+    # replace username/repo:tag with your name and image details
+    image: abdulrazzak/helloworld:part1
+    deploy:
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "4000:80"
+    networks:
+      - webnet
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      # replicas: 3
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+  flask:
+    image: abdulrazzak/helloworld:part2
+    ports:
+      - "8888:5000"
+    deploy:
+    networks:
+      - webnet
+  cadvisor:
+    image: google/cadvisor:latest
+    # deploy:
+    # replicas: 3
+    ports:
+      - 8081:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    depends_on:
+      - redis
+  address-service:
+    image: abdulrazzak/helloworld:addresscontainer
+    ports:
+      - 8085:8085
+    networks:
+      - webnet
+  mail-service:
+    image: abdulrazzak/helloworld:mailcontainer
+    ports:
+      - 8086:8086
+    environment:
+      - ADDRESS_SERVICE_BASE_PATH=http://address-service:8085/address-service
+    depends_on:
+      - address-service
+    networks:
+      - webnet
+networks:
+  webnet:
