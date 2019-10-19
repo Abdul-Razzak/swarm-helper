@@ -2,6 +2,7 @@ package de.thesis.swarmhelper.service;
 
 import de.thesis.swarmhelper.domain.ContainerSpecification;
 import de.thesis.swarmhelper.domain.DockerNode;
+import de.thesis.swarmhelper.domain.PlacementConstraints;
 import de.thesis.swarmhelper.repository.ContainerRepository;
 import de.thesis.swarmhelper.repository.NodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,10 @@ public class DeploymentManagerService {
                 innerMap.put("image", "user/" + specification.getApplicationName() + ":latest");
                 innerMap.put("ports", "8080:8080");
                 innerMap.put("networks", "webnet");
+                if(specification.getRelatedTo() != "" || specification.getRelatedTo() != null) {
+                    PlacementConstraints constraints = new PlacementConstraints();
+                    innerMap.put("deploy", constraints.toPlacementConstraints(node.getName()));
+                }
                 appConfigs.put(specification.getApplicationName(), innerMap);
             }
         }
