@@ -19,7 +19,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\" : \"node1\",\n\t\"totalMemory\" : \"1024\",\n\t\"totalCpu\" : 2\n}"
+					"raw": "{\n\t\"name\" : \"worker1\",\n\t\"totalMemory\" : \"1000\",\n\t\"totalCpu\" : 5\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/node",
@@ -49,7 +49,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"applicationName\" : \"app2\",\n\t\"relatedTo\" : \"\",\n\t\"cpuConsumption\" : 1,\n\t\"memoryConsumption\" : 512\n}\n\n\n\n  "
+					"raw": "{\n\t\"applicationName\" : \"container2\",\n\t\"relatedTo\" : \"\",\n\t\"cpuConsumption\" : 1,\n\t\"memoryConsumption\" : 512\n}\n\n\n\n  "
 				},
 				"url": {
 					"raw": "http://localhost:8080/deploy",
